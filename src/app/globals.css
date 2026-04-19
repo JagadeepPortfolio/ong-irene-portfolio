@@ -265,11 +265,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Mobile: add bottom padding for fixed WhatsApp bar */
-@media (max-width: 767px) {
-  footer { padding-bottom: 3.5rem; }
-}
-
 /* Reduced motion: disable all custom animations */
 @media (prefers-reduced-motion: reduce) {
   .rv, .rv-l, .rv-r, .stg > * {
