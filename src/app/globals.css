@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-navy: #1B2D4F;
+  --color-navy-light: #253d6b;
+  --color-parchment: #F5F0E8;
+  --color-brass: #C5A55A;
+  --color-brass-light: #d4ba7a;
+  --color-midnight: #121A2B;
+  --color-linen: #FAF8F4;
+  --color-charcoal: #1C1C1E;
+  --color-slate: #6B7280;
+  --color-cream: #F0EBE0;
+  --color-rose: #D4A0A0;
+  --color-whatsapp: #25D366;
+
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-instrument);
+}
+
+:root {
+  --ease-luxury: cubic-bezier(.23, 1, .32, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-parchment);
+  color: var(--color-charcoal);
+  font-family: var(--font-body), sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), serif;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* Scroll reveal base — only hide when JS is ready (crawlers see content visible) */
+.rv-ready .rv {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
+
+.rv-ready .rv.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rv-ready .rv-l {
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
+
+.rv-ready .rv-l.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.rv-ready .rv-r {
+  opacity: 0;
+  transform: translateX(36px);
+  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
+
+.rv-ready .rv-r.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered children */
+.rv-ready .stg > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease-luxury), transform 0.6s var(--ease-luxury);
+}
+
+.rv-ready .stg.in > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stg.in > *:nth-child(1) { transition-delay: 0ms; }
+.stg.in > *:nth-child(2) { transition-delay: 100ms; }
+.stg.in > *:nth-child(3) { transition-delay: 200ms; }
+.stg.in > *:nth-child(4) { transition-delay: 300ms; }
+.stg.in > *:nth-child(5) { transition-delay: 400ms; }
+.stg.in > *:nth-child(6) { transition-delay: 500ms; }
+
+/* Hero curtain reveal */
+.curtain-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s var(--ease-luxury);
+}
+
+.curtain-reveal.revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Hero text stagger */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.rv-ready .hero-stagger > * {
+  opacity: 0;
+}
+
+.hero-stagger.animate > * {
+  animation: slideInLeft 0.5s var(--ease-luxury) forwards;
+}
+
+.hero-stagger.animate > *:nth-child(1) { animation-delay: 0.3s; }
+.hero-stagger.animate > *:nth-child(2) { animation-delay: 0.5s; }
+.hero-stagger.animate > *:nth-child(3) { animation-delay: 0.7s; }
+.hero-stagger.animate > *:nth-child(4) { animation-delay: 0.9s; }
+.hero-stagger.animate > *:nth-child(5) { animation-delay: 1.1s; }
+
+/* 3D card tilt */
+.card-3d {
+  perspective: 1200px;
+}
+
+.card-3d-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+}
+
+/* Glowing border trace */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.card-glow {
+  position: relative;
+}
+
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 40%,
+    #C5A55A 50%,
+    transparent 60%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.card-glow:hover::before {
+  opacity: 1;
+  animation: borderSpin 3s linear infinite;
+}
+
+@keyframes borderSpin {
+  to { --border-angle: 360deg; }
+}
+
+/* Icon glow on card hover */
+.card-icon-glow {
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.card-glow:hover .card-icon-glow {
+  filter: drop-shadow(0 0 8px rgba(197, 165, 90, 0.5));
+  transform: scale(1.1);
+}
+
+/* Rose accent decorative shape */
+.rose-accent::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 160, 160, 0.15), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Overline label style */
+.overline {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+/* Section spacing */
+.section-py {
+  padding-top: 3.75rem;
+  padding-bottom: 3.75rem;
+}
+
+@media (min-width: 768px) {
+  .section-py {
+    padding-top: 6.25rem;
+    padding-bottom: 6.25rem;
+  }
+}
+
+/* WhatsApp pulse */
+@keyframes whatsappPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+}
+
+.whatsapp-pulse {
+  animation: whatsappPulse 3s ease-in-out infinite;
+}
+
+/* Aurora mesh background */
+.aurora-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(197, 165, 90, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(212, 160, 160, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 60% 60%, rgba(197, 165, 90, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 70% at 30% 30%, rgba(212, 160, 160, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, #121A2B 0%, #1B2D4F 50%, #121A2B 100%);
+  animation: auroraDrift 12s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDrift {
+  0% {
+    background-position:
+      0% 100%, 100% 0%, 60% 60%, 30% 30%, 0% 0%;
+  }
+  33% {
+    background-position:
+      10% 90%, 90% 15%, 50% 50%, 40% 20%, 0% 0%;
+  }
+  66% {
+    background-position:
+      5% 95%, 85% 10%, 55% 55%, 35% 25%, 0% 0%;
+  }
+  100% {
+    background-position:
+      15% 85%, 80% 25%, 45% 65%, 45% 15%, 0% 0%;
+  }
+}
+
+/* Mobile: add bottom padding for fixed WhatsApp bar */
+@media (max-width: 767px) {
+  footer { padding-bottom: 3.5rem; }
+}
+
+/* Reduced motion: disable all custom animations */
+@media (prefers-reduced-motion: reduce) {
+  .rv, .rv-l, .rv-r, .stg > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .curtain-reveal { clip-path: inset(0) !important; }
+  .hero-stagger > * { opacity: 1 !important; animation: none !important; }
+  .aurora-bg { animation: none !important; }
+  .card-glow:hover::before { animation: none !important; }
+}
+
+/* Loader */
+@keyframes loaderName {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loaderLine {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
